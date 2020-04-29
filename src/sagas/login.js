@@ -1,6 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 
-import { fetchError } from "./utilities";
 import { cacheItem } from "../utilities/cache-handler";
 
 import { LOGGING_IN, LOGIN_SUCC, LOGIN_FAILED } from "../reducers/login";
@@ -28,10 +27,7 @@ function* loginAsync(action) {
     yield put({
       type: LOGIN_FAILED,
       payload: {
-        error: fetchError({
-          error: err,
-          defaultMsg: "The email/password is not valid"
-        })
+        error: "The email/password is not valid"
       }
     });
   }
