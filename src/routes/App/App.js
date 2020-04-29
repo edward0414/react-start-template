@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.scss";
+
+// import Modal from "@material-ui/core/Modal";
+import Modal from "../../components/modal";
 
 import { Switch, Route } from "react-router-dom";
 // import Header from "../../components/header";
@@ -18,10 +21,27 @@ function Component2() {
 }
 
 function App() {
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="app">
       <div className="app__width">
         {/* <Header /> */}
+
+        {/* Control login modal with a flag from Redux */}
+        <div>
+          <button type="button" onClick={() => setOpen(true)}>
+            Open Modal
+          </button>
+          <Modal
+            open={open}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+            handleClose={() => setOpen(false)}
+            title={"LOGIN MODAL"}
+            content={"logging in"}
+          />
+        </div>
         <div className="app__content-layout">
           {/* <Sidebar /> */}
           <div className="app__link-content">
