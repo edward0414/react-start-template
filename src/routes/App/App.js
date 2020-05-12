@@ -1,59 +1,76 @@
 import React, { useState } from "react";
-import "./App.scss";
 
-// import Modal from "@material-ui/core/Modal";
-import Modal from "../../components/modal";
+import { Switch, Route, Redirect } from "react-router-dom";
 
-import { Switch, Route } from "react-router-dom";
-// import Header from "../../components/header";
-
-// import Sidebar from "../../components/sidebar";
-
-// import Footer from "../../components/footer";
+import { makeStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
 
 import Dashboard from "../Dashboard";
+import Copyright from "../../components/copyright";
+import Sidebar from "../../components/sidebar";
+import Header from "../../components/header";
 
-function Component1() {
-  return <div>Component 1</div>;
-}
-function Component2() {
-  return <div>Component 2</div>;
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex"
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: "100vh",
+    overflow: "auto"
+  },
+  container: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4)
+  }
+}));
+
+function PlaceholderComponent() {
+  return <div>Placeholder</div>;
 }
 
 function App() {
-  const [open, setOpen] = useState(false);
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(true);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <div className="app">
-      <div className="app__width">
-        {/* <Header /> */}
+    <div className={classes.root}>
+      <CssBaseline />
 
-        {/* Control login modal with a flag from Redux */}
-        <div>
-          <button type="button" onClick={() => setOpen(true)}>
-            Open Modal
-          </button>
-          <Modal
-            open={open}
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-            handleClose={() => setOpen(false)}
-            title={"LOGIN MODAL"}
-            content={"logging in"}
-          />
-        </div>
-        <div className="app__content-layout">
-          {/* <Sidebar /> */}
-          <div className="app__link-content">
-            <Switch>
-              <Route exact path="/" component={Dashboard} />
-              <Route exact path="/1" component={Component1} />
-              <Route exact path="/2" component={Component2} />
-            </Switch>
-          </div>
-        </div>
-        {/* <Footer /> */}
-      </div>
+      {/* Header */}
+      <Header open={open} handleDrawerOpen={handleDrawerOpen} />
+
+      {/* Sidebar */}
+      <Sidebar open={open} handleDrawerClose={handleDrawerClose} />
+
+      {/* Main Content */}
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="lg" className={classes.container}>
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/dashboard" />
+            </Route>
+            <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/orders" component={PlaceholderComponent} />
+            <Route exact path="/customers" component={PlaceholderComponent} />
+            <Route exact path="/reports" component={PlaceholderComponent} />
+            <Route exact path="/integrations" component={PlaceholderComponent} />
+          </Switch>
+          <Box pt={4}>
+            <Copyright />
+          </Box>
+        </Container>
+      </main>
     </div>
   );
 }
